@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style/icon.css">
+    <link rel="stylesheet" href="style/style.css">
+<script src="node_modules/jquery/dist/jquery.js"></script>
+
+</head>
+<body>
+
+    
+<div class="search">
+<input class="input" data-sent="sent" placeholder="Search... ">
+&nbsp;&nbsp;
+<input type="submit" data-submit="true" value="search" class="btn-1">
+<div class="result" data-box="result" >
+
+    <h5></h5>
+    <section class="flag" data-flag="flag">
+        <img src="" alt="">
+    </section>  
+</div>
+</div>
+
+
+<div class="container box-container">
+</div>
+
+<div class="dark-mode" >
+    <small>change mode</small>
+    <img src="https://img.icons8.com/ios-filled/480/000000/fog-night--v2.png"/></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function nameAjax(){
+        $("[data-sent]").keyup(function () {
+let inputVal = $("[data-sent]").val() 
+    $.ajax({
+   url:"https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid=7cb5b30952ed5f025dcd10f901794e2f&units=metric",
+   success:function(data){
+            searchResult(data)
+             flagAjax(data)
+   },
+   error:function(){
+   }
+})
+async function  searchResult(data) {
+let code = data.sys.country
+     $("[data-box]").css("display","block")
+    // $("[data-box]").text($("[data-sent]").val())
+}
+    })
+    }
+function flagAjax(data){
+    $.ajax({
+    url:`https://restcountries.eu/rest/v2/alpha/${data.sys.country}?fields=flag;name`,
+    success:function (data){
+        $("[data-box] h5").text($("[data-sent]").val()+ " / "+data.name)
+        $("[data-flag] img").attr("src",data.flag)
+      
+        
+    }
+})
+
+}
+nameAjax()
+</script>
+<script src="vanilla-tilt.js"></script>
+<script>
+    VanillaTilt.init(document.querySelector(".card"), {
+		max: 25,
+		speed: 400
+	});
+</script>
+    <script src="weather js/test.js"></script>
+
+</body>
+</html>
